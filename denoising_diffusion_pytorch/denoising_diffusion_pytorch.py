@@ -1089,17 +1089,21 @@ class Trainer:
                 if accelerator.is_main_process:
                     self.ema.update()
 
-                    if self.step != 0 and divisible_by(self.step, self.save_and_sample_every):
+                    # if self.step != 0 and divisible_by(self.step, self.save_and_sample_every):
+                    #     self.ema.ema_model.eval()
+
+                    #     with torch.inference_mode():
+                    #         milestone = self.step // self.save_and_sample_every
+                    #         batches = num_to_groups(self.num_samples, self.batch_size)
+                    #         all_images_list = list(map(lambda n: self.ema.ema_model.sample(batch_size=n), batches))
+
+                    #     all_images = torch.cat(all_images_list, dim = 0)
+
+                    #     utils.save_image(all_images, str(self.results_folder / f'sample-{milestone}.png'), nrow = int(math.sqrt(self.num_samples)))
+
+                    if self.step == self.train_num_steps:
                         self.ema.ema_model.eval()
 
-                        with torch.inference_mode():
-                            milestone = self.step // self.save_and_sample_every
-                            batches = num_to_groups(self.num_samples, self.batch_size)
-                            all_images_list = list(map(lambda n: self.ema.ema_model.sample(batch_size=n), batches))
-
-                        all_images = torch.cat(all_images_list, dim = 0)
-
-                        utils.save_image(all_images, str(self.results_folder / f'sample-{milestone}.png'), nrow = int(math.sqrt(self.num_samples)))
 
                         # whether to calculate fid
 

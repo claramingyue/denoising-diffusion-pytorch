@@ -1101,23 +1101,31 @@ class Trainer:
 
                     #     utils.save_image(all_images, str(self.results_folder / f'sample-{milestone}.png'), nrow = int(math.sqrt(self.num_samples)))
 
+                        # whether to calculate fid
+
+                        # if self.calculate_fid:
+                        #     fid_score = self.fid_scorer.fid_score()
+                        #     accelerator.print(f'fid_score: {fid_score}')
+
+                        # if self.save_best_and_latest_only:
+                        #     if self.best_fid > fid_score:
+                        #         self.best_fid = fid_score
+                        #         self.save("best")
+                        #     self.save("latest")
+                        # else:
+                        #     self.save(milestone)
+
+
                     if self.step == self.train_num_steps:
                         self.ema.ema_model.eval()
 
-
                         # whether to calculate fid
-
                         if self.calculate_fid:
                             fid_score = self.fid_scorer.fid_score()
                             accelerator.print(f'fid_score: {fid_score}')
 
-                        if self.save_best_and_latest_only:
-                            if self.best_fid > fid_score:
-                                self.best_fid = fid_score
-                                self.save("best")
-                            self.save("latest")
-                        else:
-                            self.save(milestone)
+                        # Guardar solo al final, sin usar milestone
+                        self.save("final")
 
                 pbar.update(1)
 

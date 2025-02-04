@@ -88,31 +88,31 @@ def unnormalize_to_zero_to_one(t):
 
 # small helper modules
 
-# def Upsample(dim, dim_out = None):
-#     return nn.Sequential(
-#         nn.Upsample(scale_factor = 4, mode = 'nearest'),
-#         nn.Conv2d(dim, default(dim_out, dim), 3 , padding = 1)
-#     )
-
-def Upsample(dim, dim_out = None, kernel_size=5):
+def Upsample(dim, dim_out = None):
     return nn.Sequential(
-        nn.Upsample(scale_factor = 2, mode = 'nearest'),  # Duplica la resolución
-        nn.Conv2d(dim, default(dim_out, dim), kernel_size, padding = kernel_size // 2)  # Filtro 5x5
-        #nn.Conv2d(dim, default(dim_out, dim), kernel_size, padding = 1)  # Filtro 5x5
+        nn.Upsample(scale_factor = 4, mode = 'nearest'),
+        nn.Conv2d(dim, default(dim_out, dim), 3 , padding = 1)
     )
 
-def Downsample(dim, dim_out = None):
-    return nn.Sequential(
-        Rearrange('b c (h p1) (w p2) -> b (c p1 p2) h w', p1 = 2, p2 = 2),
-        nn.Conv2d(dim * 4, default(dim_out, dim), 1)
-    )
-
-
-# def Downsample(dim, dim_out=None):
+# def Upsample(dim, dim_out = None, kernel_size=3):
 #     return nn.Sequential(
-#         Rearrange('b c (h p1) (w p2) -> b (c p1 p2) h w', p1=4, p2=4),  # Ahora agrupa en bloques de 3x3
-#         nn.Conv2d(dim * 16, default(dim_out, dim), 1)  # Ajustar los canales (en lugar de *4, ahora es *9)
+#         nn.Upsample(scale_factor = 2, mode = 'nearest'),  # Duplica la resolución
+#         #nn.Conv2d(dim, default(dim_out, dim), kernel_size, padding = kernel_size // 2)  # Filtro 5x5
+#         nn.Conv2d(dim, default(dim_out, dim), kernel_size, padding = 1)  # Filtro 5x5
 #     )
+
+# def Downsample(dim, dim_out = None):
+#     return nn.Sequential(
+#         Rearrange('b c (h p1) (w p2) -> b (c p1 p2) h w', p1 = 2, p2 = 2),
+#         nn.Conv2d(dim * 4, default(dim_out, dim), 1)
+#     )
+
+
+def Downsample(dim, dim_out=None):
+    return nn.Sequential(
+        Rearrange('b c (h p1) (w p2) -> b (c p1 p2) h w', p1=4, p2=4),  # Ahora agrupa en bloques de 3x3
+        nn.Conv2d(dim * 16, default(dim_out, dim), 1)  # Ajustar los canales (en lugar de *4, ahora es *9)
+    )
 
 
 class RMSNorm(Module):

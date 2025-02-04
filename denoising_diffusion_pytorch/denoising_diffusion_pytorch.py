@@ -26,7 +26,7 @@ from PIL import Image
 from tqdm.auto import tqdm
 from ema_pytorch import EMA
 
-from accelerate import Accelerator, DataLoaderConfiguration
+from accelerate import Accelerator
 
 from denoising_diffusion_pytorch.attend import Attend
 
@@ -922,15 +922,10 @@ class Trainer:
 
         # accelerator
 
-        dataloader_config = DataLoaderConfiguration(split_batches)
-
         self.accelerator = Accelerator(
-            dataloader_config=dataloader_config,
+            split_batches = split_batches,
             mixed_precision = mixed_precision_type if amp else 'no'
-        ) 
-
-        
-       
+        )
 
         # model
 

@@ -88,10 +88,10 @@ def unnormalize_to_zero_to_one(t):
 
 # small helper modules
 
-def Upsample(dim, dim_out = None):
+def Upsample(dim, dim_out = None, kernel_size=7):
     return nn.Sequential(
         nn.Upsample(scale_factor = 4, mode = 'nearest'),
-        nn.Conv2d(dim, default(dim_out, dim), 3 , padding = 1)
+        nn.Conv2d(dim, default(dim_out, dim), kernel_size , padding = kernel_size // 2)
     )
 
 # def Upsample(dim, dim_out = None, kernel_size=3):

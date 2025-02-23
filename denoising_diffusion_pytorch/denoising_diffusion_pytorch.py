@@ -31,6 +31,10 @@ from accelerate import Accelerator
 from denoising_diffusion_pytorch.attend import Attend
 
 from denoising_diffusion_pytorch.version import __version__
+import torch._dynamo
+torch._dynamo.config.suppress_errors = True
+
+
 
 # constants
 
